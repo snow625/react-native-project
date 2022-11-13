@@ -13,12 +13,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const LoginScreen = ({onPressProp}) => {
+const LoginScreen = ({ onPressProp }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(true);
 
   const onLoginSubmit = () => {
     console.log({ email, password });
@@ -40,28 +42,42 @@ const LoginScreen = ({onPressProp}) => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               placeholder="email@gmail.com"
-              textAlign="center"
               textContentType="emailAddress"
               style={emailFocus ? styles.inputFocus : styles.input}
               onFocus={() => setEmailFocus(true)}
               onBlur={() => setEmailFocus(false)}
             />
-
-            <TextInput
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              placeholder="password"
-              secureTextEntry={true}
-              textContentType="password"
-              textAlign="center"
-              style={passwordFocus ? styles.inputFocus : styles.input}
-              onFocus={() => setPasswordFocus(true)}
-              onBlur={() => setPasswordFocus(false)}
-            />
-            <TouchableOpacity style={styles.button} activeOpacity={0.7} onPress={onLoginSubmit}>
+            <View style={styles.passwordWrapper}>
+              <TextInput
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                placeholder="password"
+                secureTextEntry={showPassword}
+                textContentType="password"
+                style={passwordFocus ? styles.inputFocus : styles.input}
+                onFocus={() => setPasswordFocus(true)}
+                onBlur={() => setPasswordFocus(false)}
+              />
+              <Text
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.showPasswordButton}
+              >
+                {showPassword ? "Show" : "Hide"}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.7}
+              onPress={onLoginSubmit}
+            >
               <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
-            <Text onPress={()=>onPressProp('register')} style={styles.altButton}>Don't have an account? Register</Text>
+            <Text
+              onPress={() => onPressProp("register")}
+              style={styles.altButton}
+            >
+              Don't have an account? Register
+            </Text>
           </KeyboardAvoidingView>
         </View>
       </ImageBackground>
@@ -70,11 +86,11 @@ const LoginScreen = ({onPressProp}) => {
 };
 
 LoginScreen.defaultProps = {
-  onPressProp: ()=>{},
+  onPressProp: () => {},
 };
 
 LoginScreen.propTypes = {
-  onPressProp: PropTypes.func
+  onPressProp: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -83,9 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   form: {
-    // flex: 0.5,
     backgroundColor: "#FFFFFF",
-    // alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingBottom: 20,
@@ -113,6 +127,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 8,
   },
+  passwordWrapper: {
+    position: "relative",
+  },
+  showPasswordButton: {
+    position: "absolute",
+    right: 32,
+    top: 6,
+    fontFamily: "RobotoRegular",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#1B4371",
+    marginTop: 16,
+  },
   inputFocus: {
     marginHorizontal: 16,
     padding: 16,
@@ -127,26 +154,26 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
-    marginTop:40,
-    backgroundColor:'#FF6C00',
+    marginTop: 40,
+    backgroundColor: "#FF6C00",
     marginHorizontal: 16,
     padding: 16,
-    borderRadius:100,
+    borderRadius: 100,
   },
-  buttonText:{
-    textAlign:'center',
-    color:'#FFFFFF',
+  buttonText: {
+    textAlign: "center",
+    color: "#FFFFFF",
     fontFamily: "RobotoRegular",
     fontSize: 16,
     lineHeight: 19,
   },
-  altButton:{
+  altButton: {
     fontFamily: "RobotoRegular",
     fontSize: 16,
     lineHeight: 19,
-    color:'#1B4371',
-    marginTop:16,
-    textAlign:'center',
+    color: "#1B4371",
+    marginTop: 16,
+    textAlign: "center",
   },
 });
 
