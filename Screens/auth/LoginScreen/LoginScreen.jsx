@@ -13,25 +13,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import AddIconButton from "../../shared/components/AddIconButton";
-
-const RegistrationScreen = ({ onPressProp }) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
 
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-  const [userNameFocus, setUserNameFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
 
-  const onRegistrationSubmit = () => {
-    console.log({ userName, email, password });
-  };
-
-  const onAddImagePress = () => {
-    console.log(`onAddImagePress`);
+  const onLoginSubmit = () => {
+    console.log({ email, password });
   };
 
   return (
@@ -39,19 +31,13 @@ const RegistrationScreen = ({ onPressProp }) => {
       <ImageBackground
         style={styles.image}
         resizeMode="cover"
-        source={require("../../assets/img/registerBg.png")}
+        source={require("../../../assets/img/registerBg.png")}
       >
         <View style={styles.form}>
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
-            <View style={styles.formTitleWrapper}>
-              <View style={styles.userImage}>
-                <AddIconButton style={styles.iconButton} onPressProp={onAddImagePress} />
-              </View>
-              <Text style={styles.formTitle}>Sign Up</Text>
-            </View>
-
+            <Text style={styles.formTitle}>Sign in</Text>
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -61,16 +47,6 @@ const RegistrationScreen = ({ onPressProp }) => {
               onFocus={() => setEmailFocus(true)}
               onBlur={() => setEmailFocus(false)}
             />
-            <TextInput
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="email@gmail.com"
-              textContentType="emailAddress"
-              style={emailFocus ? styles.inputFocus : styles.input}
-              onFocus={() => setEmailFocus(true)}
-              onBlur={() => setEmailFocus(false)}
-            />
-
             <View style={styles.passwordWrapper}>
               <TextInput
                 value={password}
@@ -92,12 +68,15 @@ const RegistrationScreen = ({ onPressProp }) => {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.7}
-              onPress={onRegistrationSubmit}
+              onPress={onLoginSubmit}
             >
-              <Text style={styles.buttonText}>Sign Up</Text>
+              <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
-            <Text onPress={() => onPressProp("login")} style={styles.altButton}>
-              Already have an account? Sign In
+            <Text
+              onPress={() => navigation.navigate("Registration")}
+              style={styles.altButton}
+            >
+              Don't have an account? <Text style={ {color: "#FF6C00", fontSize: 18, fontFamily: 'RobotoMedium'}}>Sign Up</Text> 
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -106,9 +85,7 @@ const RegistrationScreen = ({ onPressProp }) => {
   );
 };
 
-RegistrationScreen.defaultProps = {
-  onPressProp: () => {},
-};
+
 
 const styles = StyleSheet.create({
   image: {
@@ -121,32 +98,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     paddingBottom: 20,
   },
-  formTitleWrapper: {
-    position: "relative",
-   
-  },
-  userImage: {
-    position: "absolute",
-    top: -60,
-
-    left: '50%',
-    transform: [{ translateX: -60 }],
-  
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-   
-  },
-  iconButton:{
-    position:"absolute",
-    right:-12,
-    bottom:14,
-  },
   formTitle: {
     textAlign: "center",
     marginBottom: 32,
-    marginTop: 92,
+    marginTop: 32,
 
     fontFamily: "RobotoMedium",
     fontSize: 30,
@@ -166,19 +121,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 8,
   },
-  inputFocus: {
-    marginHorizontal: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "#FF6C00",
-    backgroundColor: "#FFFFFF",
-    fontFamily: "RobotoRegular",
-    fontSize: 16,
-    lineHeight: 19,
-    color: "#212121",
-    marginBottom: 16,
-    borderRadius: 8,
-  },
   passwordWrapper: {
     position: "relative",
   },
@@ -191,6 +133,19 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#1B4371",
     marginTop: 16,
+  },
+  inputFocus: {
+    marginHorizontal: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+    backgroundColor: "#FFFFFF",
+    fontFamily: "RobotoRegular",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+    marginBottom: 16,
+    borderRadius: 8,
   },
   button: {
     marginTop: 40,
@@ -216,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default LoginScreen;

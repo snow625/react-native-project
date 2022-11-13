@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+
 import {
   View,
   TextInput,
@@ -13,17 +13,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const LoginScreen = ({ onPressProp }) => {
+import AddIconButton from "../../../shared/components/AddIconButton";
+
+const RegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
 
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
+  const [userNameFocus, setUserNameFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
 
-  const onLoginSubmit = () => {
-    console.log({ email, password });
+  const onRegistrationSubmit = () => {
+    console.log({ userName, email, password });
+  };
+
+  const onAddImagePress = () => {
+    console.log(`onAddImagePress`);
   };
 
   return (
@@ -31,13 +39,28 @@ const LoginScreen = ({ onPressProp }) => {
       <ImageBackground
         style={styles.image}
         resizeMode="cover"
-        source={require("../../assets/img/registerBg.png")}
+        source={require("../../../assets/img/registerBg.png")}
       >
         <View style={styles.form}>
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
-            <Text style={styles.formTitle}>Sign in</Text>
+            <View style={styles.formTitleWrapper}>
+              <View style={styles.userImage}>
+                <AddIconButton style={styles.iconButton} onPressProp={onAddImagePress} />
+              </View>
+              <Text style={styles.formTitle}>Sign Up</Text>
+            </View>
+
+            <TextInput
+              value={email}
+              onChangeText={(text) => userName(text)}
+              placeholder="Jon Richard"
+              textContentType="name"
+              style={userNameFocus ? styles.inputFocus : styles.input}
+              onFocus={() => setUserNameFocus(true)}
+              onBlur={() => setUserNameFocus(false)}
+            />
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -47,6 +70,7 @@ const LoginScreen = ({ onPressProp }) => {
               onFocus={() => setEmailFocus(true)}
               onBlur={() => setEmailFocus(false)}
             />
+
             <View style={styles.passwordWrapper}>
               <TextInput
                 value={password}
@@ -68,15 +92,12 @@ const LoginScreen = ({ onPressProp }) => {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.7}
-              onPress={onLoginSubmit}
+              onPress={onRegistrationSubmit}
             >
-              <Text style={styles.buttonText}>Sign in</Text>
+              <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-            <Text
-              onPress={() => onPressProp("register")}
-              style={styles.altButton}
-            >
-              Don't have an account? Register
+            <Text onPress={() => navigation.navigate("Login")} style={styles.altButton}>
+              Already have an account? <Text style={ {color: "#FF6C00", fontSize: 18, fontFamily: 'RobotoMedium'}}>Sign in</Text>
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -85,13 +106,7 @@ const LoginScreen = ({ onPressProp }) => {
   );
 };
 
-LoginScreen.defaultProps = {
-  onPressProp: () => {},
-};
 
-LoginScreen.propTypes = {
-  onPressProp: PropTypes.func,
-};
 
 const styles = StyleSheet.create({
   image: {
@@ -104,10 +119,32 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     paddingBottom: 20,
   },
+  formTitleWrapper: {
+    position: "relative",
+   
+  },
+  userImage: {
+    position: "absolute",
+    top: -60,
+
+    left: '50%',
+    transform: [{ translateX: -60 }],
+  
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+    backgroundColor: "#F6F6F6",
+   
+  },
+  iconButton:{
+    position:"absolute",
+    right:-12,
+    bottom:14,
+  },
   formTitle: {
     textAlign: "center",
     marginBottom: 32,
-    marginTop: 32,
+    marginTop: 92,
 
     fontFamily: "RobotoMedium",
     fontSize: 30,
@@ -127,19 +164,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 8,
   },
-  passwordWrapper: {
-    position: "relative",
-  },
-  showPasswordButton: {
-    position: "absolute",
-    right: 32,
-    top: 6,
-    fontFamily: "RobotoRegular",
-    fontSize: 16,
-    lineHeight: 19,
-    color: "#1B4371",
-    marginTop: 16,
-  },
   inputFocus: {
     marginHorizontal: 16,
     padding: 16,
@@ -152,6 +176,19 @@ const styles = StyleSheet.create({
     color: "#212121",
     marginBottom: 16,
     borderRadius: 8,
+  },
+  passwordWrapper: {
+    position: "relative",
+  },
+  showPasswordButton: {
+    position: "absolute",
+    right: 32,
+    top: 6,
+    fontFamily: "RobotoRegular",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#1B4371",
+    marginTop: 16,
   },
   button: {
     marginTop: 40,
@@ -177,4 +214,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegistrationScreen;
