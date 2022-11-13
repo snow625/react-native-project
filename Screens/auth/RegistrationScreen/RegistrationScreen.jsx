@@ -53,8 +53,8 @@ const RegistrationScreen = ({ navigation }) => {
             </View>
 
             <TextInput
-              value={email}
-              onChangeText={(text) => userName(text)}
+              value={userName}
+              onChangeText={(text) => setUserName(text)}
               placeholder="Jon Richard"
               textContentType="name"
               style={userNameFocus ? styles.inputFocus : styles.input}
