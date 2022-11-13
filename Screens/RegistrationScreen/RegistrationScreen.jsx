@@ -53,13 +53,13 @@ const RegistrationScreen = ({ onPressProp }) => {
             </View>
 
             <TextInput
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="email@gmail.com"
-              textContentType="emailAddress"
-              style={emailFocus ? styles.inputFocus : styles.input}
-              onFocus={() => setEmailFocus(true)}
-              onBlur={() => setEmailFocus(false)}
+              value={userName}
+              onChangeText={(text) => setUserName(text)}
+              placeholder="Jon Backsly "
+              textContentType="name"
+              style={userNameFocus ? styles.inputFocus : styles.input}
+              onFocus={() => setUserNameFocus(true)}
+              onBlur={() => setUserNameFocus(false)}
             />
             <TextInput
               value={email}
