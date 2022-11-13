@@ -13,9 +13,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import AddIconButton from "../../shared/components/AddIconButton";
+import AddIconButton from "../../../shared/components/AddIconButton";
 
-const RegistrationScreen = ({ onPressProp }) => {
+const RegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -39,7 +39,7 @@ const RegistrationScreen = ({ onPressProp }) => {
       <ImageBackground
         style={styles.image}
         resizeMode="cover"
-        source={require("../../assets/img/registerBg.png")}
+        source={require("../../../assets/img/registerBg.png")}
       >
         <View style={styles.form}>
           <KeyboardAvoidingView
@@ -55,7 +55,7 @@ const RegistrationScreen = ({ onPressProp }) => {
             <TextInput
               value={userName}
               onChangeText={(text) => setUserName(text)}
-              placeholder="Jon Backsly "
+              placeholder="Jon Richard"
               textContentType="name"
               style={userNameFocus ? styles.inputFocus : styles.input}
               onFocus={() => setUserNameFocus(true)}
@@ -96,8 +96,8 @@ const RegistrationScreen = ({ onPressProp }) => {
             >
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-            <Text onPress={() => onPressProp("login")} style={styles.altButton}>
-              Already have an account? Sign In
+            <Text onPress={() => navigation.navigate("Login")} style={styles.altButton}>
+              Already have an account? <Text style={ {color: "#FF6C00", fontSize: 18, fontFamily: 'RobotoMedium'}}>Sign in</Text>
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -106,9 +106,7 @@ const RegistrationScreen = ({ onPressProp }) => {
   );
 };
 
-RegistrationScreen.defaultProps = {
-  onPressProp: () => {},
-};
+
 
 const styles = StyleSheet.create({
   image: {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+
 import {
   View,
   TextInput,
@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const LoginScreen = ({ onPressProp }) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +31,7 @@ const LoginScreen = ({ onPressProp }) => {
       <ImageBackground
         style={styles.image}
         resizeMode="cover"
-        source={require("../../assets/img/registerBg.png")}
+        source={require("../../../assets/img/registerBg.png")}
       >
         <View style={styles.form}>
           <KeyboardAvoidingView
@@ -73,10 +73,10 @@ const LoginScreen = ({ onPressProp }) => {
               <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
             <Text
-              onPress={() => onPressProp("register")}
+              onPress={() => navigation.navigate("Registration")}
               style={styles.altButton}
             >
-              Don't have an account? Register
+              Don't have an account? <Text style={ {color: "#FF6C00", fontSize: 18, fontFamily: 'RobotoMedium'}}>Sign Up</Text> 
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -85,13 +85,7 @@ const LoginScreen = ({ onPressProp }) => {
   );
 };
 
-LoginScreen.defaultProps = {
-  onPressProp: () => {},
-};
 
-LoginScreen.propTypes = {
-  onPressProp: PropTypes.func,
-};
 
 const styles = StyleSheet.create({
   image: {

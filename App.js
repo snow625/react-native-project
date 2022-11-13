@@ -1,19 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
-import LoginScreen from './Screens/LoginScreen';
-import RegistrationScreen from "./Screens/RegistrationScreen"
 
+import HomeScreen from "./Screens/main/HomeScreen";
+import AuthScreen from "./Screens/auth/AuthScreen";
 
 export default function App() {
-  const [state, setState] = useState('login')
-
-  const changePage=(pageName)=>{
-    setState(pageName);
-  }
+  const [isAuth, setIsAuth] = useState(true);
 
   const [loaded] = useFonts({
     RobotoRegular: require("./assets/fonts/Roboto-Regular.ttf"),
@@ -26,13 +22,10 @@ export default function App() {
   }
 
   return (
-   <>
-    {state === 'login' && <LoginScreen onPressProp={changePage}/>}
-    {state === 'register' && <RegistrationScreen onPressProp={changePage}/>}
-    <StatusBar style="auto" />
-   </>
-
+    <NavigationContainer>
+      {isAuth ? <HomeScreen /> : <AuthScreen />}
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({});
+
