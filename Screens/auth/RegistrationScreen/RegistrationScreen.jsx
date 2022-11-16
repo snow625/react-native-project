@@ -13,7 +13,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import AddIconButton from "../../../shared/components/AddIconButton";
+import AddIconButton from "../../../shared/components/iconButtons/AddIconButton";
+import MainButton from "../../../shared/components/MainButton";
 
 const RegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -89,13 +90,7 @@ const RegistrationScreen = ({ navigation }) => {
                 {showPassword ? "Show" : "Hide"}
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.7}
-              onPress={onRegistrationSubmit}
-            >
-              <Text style={styles.buttonText}>Sign Up</Text>
-            </TouchableOpacity>
+            <MainButton onPress={onRegistrationSubmit} style={styles.button} text='Sign Up'/>
             <Text onPress={() => navigation.navigate("Login")} style={styles.altButton}>
               Already have an account? <Text style={ {color: "#FF6C00", fontSize: 18, fontFamily: 'RobotoMedium'}}>Sign in</Text>
             </Text>
@@ -192,18 +187,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: "#FF6C00",
     marginHorizontal: 16,
-    padding: 16,
-    borderRadius: 100,
   },
-  buttonText: {
-    textAlign: "center",
-    color: "#FFFFFF",
-    fontFamily: "RobotoRegular",
-    fontSize: 16,
-    lineHeight: 19,
-  },
+
   altButton: {
     fontFamily: "RobotoRegular",
     fontSize: 16,

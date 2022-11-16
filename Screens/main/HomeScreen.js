@@ -4,10 +4,9 @@ import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 
-import CommentsScreen from "./CommentsScreen";
-import MapScreen from "./MapScreen";
 
-import LogOutIconButton from "../../shared/components/LogOutIconButton";
+
+import LogOutIconButton from "../../shared/components/iconButtons/LogOutIconButton";
 import {
   MaterialCommunityIcons,
   Ionicons,
@@ -16,6 +15,7 @@ import {
 import { View } from "react-native";
 
 const MainTab = createBottomTabNavigator();
+// const AuthStack = createStackNavigator();
 
 const HomeScreen = () => {
   const logOut = () => {
@@ -82,26 +82,28 @@ const HomeScreen = () => {
   };
 
   return (
-    <MainTab.Navigator
-    screenOptions ={{tabBarShowLabel:false}}
-      initialRouteName="PostsScreen"
-    >
-      <MainTab.Screen
-        options={optionsPosts}
-        name="PostsScreen"
-        component={PostsScreen}
-      />
-      <MainTab.Screen
-        options={optionsCreatePostsScreen}
-        name="CreatePostsScreen"
-        component={CreatePostsScreen}
-      />
-      <MainTab.Screen
-        options={optionsProfileScreen}
-        name="ProfileScreen"
-        component={ProfileScreen}
-      />
-    </MainTab.Navigator>
+    <>
+      <MainTab.Navigator
+        screenOptions={{ tabBarShowLabel: false }}
+        initialRouteName="PostsScreen"
+      >
+        <MainTab.Screen
+          options={optionsPosts}
+          name="PostsScreen"
+          component={PostsScreen}
+        />
+        <MainTab.Screen
+          options={optionsCreatePostsScreen}
+          name="CreatePostsScreen"
+          component={CreatePostsScreen}
+        />
+        <MainTab.Screen
+          options={optionsProfileScreen}
+          name="ProfileScreen"
+          component={ProfileScreen}
+        />
+      </MainTab.Navigator>
+    </>
   );
 };
 

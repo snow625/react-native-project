@@ -13,6 +13,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import MainButton from "../../../shared/components/MainButton";
+
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,13 +67,7 @@ const LoginScreen = ({ navigation }) => {
                 {showPassword ? "Show" : "Hide"}
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.7}
-              onPress={onLoginSubmit}
-            >
-              <Text style={styles.buttonText}>Sign in</Text>
-            </TouchableOpacity>
+            <MainButton onPress={onLoginSubmit} style={styles.button} text='Sign in'/>
             <Text
               onPress={() => navigation.navigate("Registration")}
               style={styles.altButton}
@@ -149,18 +145,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: "#FF6C00",
     marginHorizontal: 16,
-    padding: 16,
-    borderRadius: 100,
   },
-  buttonText: {
-    textAlign: "center",
-    color: "#FFFFFF",
-    fontFamily: "RobotoRegular",
-    fontSize: 16,
-    lineHeight: 19,
-  },
+
   altButton: {
     fontFamily: "RobotoRegular",
     fontSize: 16,
