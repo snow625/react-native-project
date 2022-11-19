@@ -1,15 +1,14 @@
-import { StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider} from "react-redux";
+import {store} from "./redux/store"
 
 import { useFonts } from "expo-font";
 
+import Router from "./router";
 
-import HomeScreen from "./Screens/main/HomeScreen";
-import AuthScreen from "./Screens/auth/AuthScreen";
 
 export default function App() {
-  const [isAuth, setIsAuth] = useState(true);
 
   const [loaded] = useFonts({
     RobotoRegular: require("./assets/fonts/Roboto-Regular.ttf"),
@@ -21,11 +20,12 @@ export default function App() {
     return null;
   }
 
+
   return (
-    <NavigationContainer>
-      {isAuth ? <HomeScreen /> : <AuthScreen />}
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+     <Router/>
+      </NavigationContainer>
+    </Provider>
   );
 }
-
-

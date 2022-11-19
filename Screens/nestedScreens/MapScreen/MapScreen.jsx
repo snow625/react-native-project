@@ -20,7 +20,7 @@ const MapScreen = ({route}) => {
 
   useEffect(() => {
     if (route.params) {
-        const {latitude, longitude} = route.params.location.coords
+        const {latitude, longitude} = route.params.location
         setTitle(route.params.name);
         setCoords({latitude, longitude});
     }

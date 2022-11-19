@@ -9,18 +9,46 @@ import {
 import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
+import { useSelector } from "react-redux";
+
+import { getDatabase, ref, child, get } from "firebase/database";
+
+import { getUserInfo } from "../../redux/auth/authSelector";
+
+
+
 const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
+  const userInfo = useSelector(getUserInfo);
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
+    const getPosts = async ()=>{
+      await get(child(ref(getDatabase()), `posts/${userInfo.uid}`)).then( async (snapshot) => {
+        if (snapshot.exists()) {
+          const data = await snapshot.val();
+          setPosts(Object.values(data));
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
     }
+
+
+    getPosts();
+    
   }, [route.params]);
 
 
-  const onPressComents = () => {
-    navigation.navigate("CommentsScreen");
+
+
+
+
+
+  const onPressComents = (postId) => {
+    navigation.navigate("CommentsScreen", {postId, userId: userInfo.uid, name: userInfo.displayName });
   };
   const onPressLocation = (location, name) => {
     navigation.navigate("MapScreen",  {location, name} );
@@ -29,25 +57,25 @@ const DefaultScreenPosts = ({ route, navigation }) => {
   const shemaItem = ({ item }) => {
     return (
       <View style={styles.postWrapper}>
-        <Image style={styles.image} source={{ uri: item.photo }} />
-        <Text style={styles.imageName}>{item.namePlace}</Text>
+        <Image style={styles.image} source={{ uri: item.pictureUrl }} />
+        <Text style={styles.imageName}>{item.pictureName}</Text>
         <View style={styles.postInfoWrapper}>
           <TouchableOpacity
             style={styles.comentsWrapper}
             activeOpacity={0.7}
-            onPress={onPressComents}
+            onPress={()=>onPressComents(item.postId)}
           >
             <Feather name="message-circle" size={24} color="#BDBDBD" />
-            <Text style={styles.comentsText}>0</Text>
+            <Text style={styles.comentsText}>{item?.comments?  Object.keys(item.comments).length :0}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.locationWrapper}
             activeOpacity={0.7}
-            onPress={()=>onPressLocation(item.location, item.namePlace)}
+            onPress={()=>onPressLocation(item.location, item.pictureName)}
           >
             <Feather name="map-pin" size={24} color="#BDBDBD" />
-            <Text style={styles.locationText}>{item.nameLocation}</Text>
+            <Text style={styles.locationText}>{item.pictureLocationName}</Text>
           </TouchableOpacity>
         </View>
       </View>

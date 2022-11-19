@@ -10,16 +10,29 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 import * as Location from 'expo-location';
 
 import { useState, useEffect } from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { getDatabase, set, ref as DataBaseRef } from "firebase/database";
+import fireBaseApp from "../../../firebase/firebaseConfig"
+
+
+import Spinner from "react-native-loading-spinner-overlay";
 
 import PhotoMaker from "../../../shared/components/PhotoMaker";
 import MainButton from "../../../shared/components/MainButton";
 
+import { getUserInfo } from "../../../redux/auth/authSelector";
+
 const CreatePostsScreen = ({ navigation }) => {
+
+const [loader, setLoader] = useState(false)
+
   const [cameraOpen, setCameraOpen] = useState(false);
   const [photo, setPhoto] = useState("empty");
 
@@ -31,6 +44,7 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const [hasPermission, setHasPermission] = useState(null);
 
+  const userInfo = useSelector(getUserInfo);
 
   useEffect(() => {
     (async () => {
@@ -47,6 +61,28 @@ const CreatePostsScreen = ({ navigation }) => {
   }
 
 
+
+
+
+
+  const setPostOnServer= async(fotoUrl, location)=>{
+    const postId = String(Date.now())
+    set(DataBaseRef(getDatabase(fireBaseApp), `posts/${userInfo.uid}/` + postId), {
+      username: userInfo.displayName,
+      email: userInfo.email,
+      pictureUrl : fotoUrl,
+      postId,
+      pictureName: namePlace,
+      pictureLocationName: nameLocation,
+      location: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      },
+      
+    });
+
+  }
+
   const onDeletePost = () => {
     setPhoto("empty");
     setNamePlace("");
@@ -56,12 +92,33 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   const onPublishPost = async () => {
+    setLoader(true)
     let location = await Location.getCurrentPositionAsync({});
-    const value = {photo, namePlace, nameLocation, location};
+  //  PHOTO
+    const respons = await fetch(photo);
+    const file = await respons.blob();
+    const storage = getStorage();
+    const starsRef = ref(storage, `posts/${Date.now()}`);
+    const result= await uploadBytes(starsRef, file);
+    const fotoUrl = await getDownloadURL(starsRef);
+// *********
+  
+     await setPostOnServer(fotoUrl, location)
     onDeletePost();
-    navigation.navigate("DefaultScreenPosts", value);
+    setLoader(false)
+    navigation.navigate("DefaultScreenPosts", {start: true});
   };
 
+
+  if (loader) {
+    return (
+      <Spinner
+        visible={loader}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
+      />
+    );
+  }
  
 
   return (

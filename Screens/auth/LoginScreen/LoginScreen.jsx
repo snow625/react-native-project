@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import {
   View,
@@ -13,6 +14,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import {userLogin} from "../../../redux/auth/authOperations"
+
 import MainButton from "../../../shared/components/MainButton";
 
 const LoginScreen = ({ navigation }) => {
@@ -24,8 +27,10 @@ const LoginScreen = ({ navigation }) => {
 
   const [showPassword, setShowPassword] = useState(true);
 
+  const dispatch = useDispatch()
+
   const onLoginSubmit = () => {
-    console.log({ email, password });
+    dispatch(userLogin({email, password}))
   };
 
   return (

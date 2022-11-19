@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
 
 import {
   View,
@@ -10,13 +12,16 @@ import {
   Platform,
   StyleSheet,
   ImageBackground,
-  TouchableOpacity,
 } from "react-native";
+
+import {createNewUser} from "../../../redux/auth/authOperations"
 
 import AddIconButton from "../../../shared/components/iconButtons/AddIconButton";
 import MainButton from "../../../shared/components/MainButton";
 
+
 const RegistrationScreen = ({ navigation }) => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -27,8 +32,10 @@ const RegistrationScreen = ({ navigation }) => {
 
   const [showPassword, setShowPassword] = useState(true);
 
-  const onRegistrationSubmit = () => {
-    console.log({ userName, email, password });
+  const dispath = useDispatch()
+
+  const onRegistrationSubmit =  () => {
+   dispath(createNewUser({ userName, email, password }))
   };
 
   const onAddImagePress = () => {

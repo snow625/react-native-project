@@ -1,4 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
 
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
@@ -12,14 +14,19 @@ import {
   Ionicons,
   AntDesign,
 } from "@expo/vector-icons";
-import { View } from "react-native";
+
+
+import {userLogOut} from "../../redux/auth/authOperations"
+
 
 const MainTab = createBottomTabNavigator();
 // const AuthStack = createStackNavigator();
 
 const HomeScreen = () => {
+
+const dispatch= useDispatch();
   const logOut = () => {
-    console.log(`LogOut`);
+    dispatch(userLogOut())
   };
 
   const optionsPosts = {
